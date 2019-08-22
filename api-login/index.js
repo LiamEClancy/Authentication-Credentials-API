@@ -12,7 +12,6 @@ AWS.config.update({ region: 'us-east-2' });
 const request = require('request-promise');
 
 // Format of the response from this API call.
-
 const response = {
 	isBase64Encoded: false,
 	statusCode: 200,
@@ -40,7 +39,6 @@ async function processRequest (event) {
 	try {
 		let eventBody = JSON.parse(event.body);
 		let username = eventBody.username;
-		let email = eventBody.email;
 		let password = eventBody.password;
 
 		// Get a production access token from Auth0.
@@ -65,22 +63,18 @@ async function processRequest (event) {
 		// Register a new user with Auth0.
 		options = {
 			method: 'POST',
-			url: 'https://arbitrary-json-storage.auth0.com/api/v2/users',
+			url: 'https://arbitrary-json-storage.auth0.com/oauth/token',
 			headers: {
 				'content-type': 'application/json',
-				'authorization': 'Bearer ' + body['access_token']
+				'authorization': 'Bearer ' + body.access_token
 			},
 			body: {
-				user_id: '',
-				connection: 'Username-Password-Authentication',
-				email: email,
+				grant_type: 'password',
 				username: username,
 				password: password,
-				user_metadata: {},
-				blocked: false,
-				email_verified: false,
-				verify_email: false,
-				app_metadata: {}
+				audience: 'https://arbitrary-json-storage.auth0.com/api/v2/',
+				client_id: auth0ClientID,
+				client_secret: auth0ClientSecret
 			},
 			json: true
 		};

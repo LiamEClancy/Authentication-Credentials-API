@@ -1,7 +1,7 @@
 {
-  "name": "api-register",
+  "name": "api-login",
   "version": "1.0.0",
-  "description": "AWS Lambda function that can register users and provide Auth0 access tokens.",
+  "description": "AWS Lambda function that can log users in and provide Auth0 access tokens.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
